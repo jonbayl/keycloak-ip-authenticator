@@ -25,9 +25,9 @@ public class IPAuthenticator implements Authenticator {
 
         if (!allowedIPAddress.equals(remoteIPAddress)) {
             logger.infof("IPs do not match. Realm %s expected %s but user %s logged from %s", realm.getName(), allowedIPAddress, user.getUsername(), remoteIPAddress);
-            UserCredentialManager credentialManager = session.userCredentialManager();
+            SubjectCredentialManager credentialManager = user.credentialManager();
 
-            if (!credentialManager.isConfiguredFor(realm, user, OTPCredentialModel.TYPE)) {
+            if (!credentialManager.isConfiguredFor(OTPCredentialModel.TYPE)) {
                 user.addRequiredAction(UserModel.RequiredAction.CONFIGURE_TOTP);
             }
 
@@ -66,5 +66,4 @@ public class IPAuthenticator implements Authenticator {
     @Override
     public void close() {
     }
-
 }
